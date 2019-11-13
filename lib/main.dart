@@ -50,44 +50,88 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: GridView.count(
-        crossAxisCount: 1,
-        padding: EdgeInsets.all(16.0),
-        childAspectRatio: 4.0,
-        children: <Widget>[
-          Card(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Row(
-                    children: <Widget>[
-                      Image(
-                        image: AssetImage('images/bus_yellow.png'),
-                        height: 40,
-                        fit: BoxFit.cover,
+      body: Container(
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Card(
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Image(
+                                image: AssetImage('images/bus_yellow.png'),
+                                height: 40,
+                                fit: BoxFit.cover,
+                              ),
+                              Image(
+                                image: AssetImage('images/arrow.png'),
+                                width: 250,
+                              ),
+                              Image(
+                                image: AssetImage('images/train_station.png'),
+                                height: 40,
+                                fit: BoxFit.cover,
+                              )
+                            ],
+                          ),
+                        ],
                       ),
-                      Image(image: AssetImage('images/arrow.png'), width: 250),
-                      Image(
-                        image: AssetImage('images/train_station.png'),
-                        height: 40,
-                        fit: BoxFit.cover,
-                      )
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-//          buildCard('IMAGE TEST', 28.0),
-          buildCard('셔틀콕', 28.0),
-          buildCard('한대앞역', 28.0),
-          buildCard('예술인 아파트', 22.0),
-          buildCard('기숙사', 28.0),
-        ],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+          ],
+        ),
+      ),
     );
   }
 }
+
+//      GridView.count(
+//        crossAxisCount: 1,
+//        padding: EdgeInsets.all(16.0),
+//        childAspectRatio: 4.0,
+//        children: <Widget>[
+//          Card(
+//            child: Column(
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              children: <Widget>[
+//                Padding(
+//                  padding: const EdgeInsets.only(left: 15),
+//                  child: Row(
+//                    children: <Widget>[
+//                      Image(
+//                        image: AssetImage('images/bus_yellow.png'),
+//                        height: 40,
+//                        fit: BoxFit.cover,
+//                      ),
+//                      Image(
+//                        image: AssetImage('images/arrow.png'),
+//                        width: 250,
+//                      ),
+//                      Image(
+//                        image: AssetImage('images/train_station.png'),
+//                        height: 40,
+//                        fit: BoxFit.cover,
+//                      )
+//                    ],
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
+////          buildCard('IMAGE TEST', 28.0),
+//          buildCard('셔틀콕', 28.0),
+//          buildCard('한대앞역', 28.0),
+//          buildCard('예술인 아파트', 22.0),
+//          buildCard('기숙사', 28.0),
+//        ],
+//      ), // This trailing comma makes auto-formatting nicer for build methods.
