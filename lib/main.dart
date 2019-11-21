@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'reusable_card.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'api.dart';
+import 'dart:async';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: '셔틀콕'),
+      home: MyHomePage(title: '버스 어디?'),
     );
   }
 }
@@ -25,60 +30,182 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Card buildCard(String destiny, double fontsize) {
-    return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            '$destiny',
-            style: TextStyle(
-              fontFamily: 'Spoqa Han sans',
-              fontSize: fontsize,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
+  Future<Timetable> shuttlecock_i;
+  Future<Timetable> shuttlecock_o;
+  Future<Timetable> giksa;
+  Future<Timetable> subway;
+  Future<Timetable> yesulin;
+
+  @override
+  void initState() {
+    super.initState();
+    shuttlecock_i = fetchData("shuttlecock_i");
+    shuttlecock_o = fetchData("shuttlecock_o");
+    giksa = fetchData("giksa");
+    subway = fetchData("subway");
+    yesulin = fetchData("yesulin");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Container(
-        child: Row(
+        appBar: AppBar(
+          title: Text('버스어디?'),
+        ),
+        body: Column(
           children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: ReusableCard(
+                    color: Colors.white,
+                    height: (MediaQuery.of(context).size.height) * 0.2,
+                    cardChild: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Expanded(
+                          child: Image.asset(
+                            'images/bus_yellow.png',
+                          ),
+                        ),
+                        Expanded(
+                          child: Image.asset(
+                            'images/arrow.png',
+                          ),
+                        ),
+                        Expanded(
+                          child: Image.asset(
+                            'images/train_station.png',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Expanded(
-              child: Column(
+              child: ReusableCard(
+                color: Colors.white,
+                height: (MediaQuery.of(context).size.height) * 0.2,
+                cardChild: Row(
+                  children: <Widget>[
+                    Text(
+                      "셔틀콕(한대앞 방향)",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.red,
+                      ),
+                    ),
+                    FutureBuilder<Timetable>(
+                      future: shuttlecock_o,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(snapshot.data.time);
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        return CircularProgressIndicator();
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Row(
                 children: <Widget>[
-                  Container(
-                    child: Card(
-                      child: Column(
+                  Expanded(
+                    child: ReusableCard(
+                      color: Colors.white,
+                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      cardChild: Row(
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Image(
-                                image: AssetImage('images/bus_yellow.png'),
-                                height: 40,
-                                fit: BoxFit.cover,
-                              ),
-                              Image(
-                                image: AssetImage('images/arrow.png'),
-                                width: 250,
-                              ),
-                              Image(
-                                image: AssetImage('images/train_station.png'),
-                                height: 40,
-                                fit: BoxFit.cover,
-                              )
-                            ],
+                          Text(
+                            "셔틀콕(기숙사 방향)",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.red,
+                            ),
+                          ),
+                          FutureBuilder<Timetable>(
+                            future: shuttlecock_i,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data.time);
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return CircularProgressIndicator();
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ReusableCard(
+                      color: Colors.white,
+                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      cardChild: Row(
+                        children: <Widget>[
+                          Text(
+                            "한대앞역",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.red,
+                            ),
+                          ),
+                          FutureBuilder<Timetable>(
+                            future: subway,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data.time);
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return CircularProgressIndicator();
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ReusableCard(
+                      color: Colors.white,
+                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      cardChild: Row(
+                        children: <Widget>[
+                          Text(
+                            "예술인 아파트",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.red,
+                            ),
+                          ),
+                          FutureBuilder<Timetable>(
+                            future: yesulin,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data.time);
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return CircularProgressIndicator();
+                            },
                           ),
                         ],
                       ),
@@ -87,51 +214,46 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
+            Expanded(
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ReusableCard(
+                      color: Colors.white,
+                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      cardChild: Row(
+                        children: <Widget>[
+                          Text(
+                            "기숙사",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.red,
+                            ),
+                          ),
+                          FutureBuilder<Timetable>(
+                            future: giksa,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data.time);
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return CircularProgressIndicator();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10.0),
+              width: double.infinity, //Full Width of screen
+            )
           ],
-        ),
-      ),
-    );
+        ));
   }
 }
 
-//      GridView.count(
-//        crossAxisCount: 1,
-//        padding: EdgeInsets.all(16.0),
-//        childAspectRatio: 4.0,
-//        children: <Widget>[
-//          Card(
-//            child: Column(
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              children: <Widget>[
-//                Padding(
-//                  padding: const EdgeInsets.only(left: 15),
-//                  child: Row(
-//                    children: <Widget>[
-//                      Image(
-//                        image: AssetImage('images/bus_yellow.png'),
-//                        height: 40,
-//                        fit: BoxFit.cover,
-//                      ),
-//                      Image(
-//                        image: AssetImage('images/arrow.png'),
-//                        width: 250,
-//                      ),
-//                      Image(
-//                        image: AssetImage('images/train_station.png'),
-//                        height: 40,
-//                        fit: BoxFit.cover,
-//                      )
-//                    ],
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
-////          buildCard('IMAGE TEST', 28.0),
-//          buildCard('셔틀콕', 28.0),
-//          buildCard('한대앞역', 28.0),
-//          buildCard('예술인 아파트', 22.0),
-//          buildCard('기숙사', 28.0),
-//        ],
-//      ), // This trailing comma makes auto-formatting nicer for build methods.
