@@ -72,7 +72,9 @@ flutter:
     - family: Spoqa Han sans
       fonts:
         - asset: fonts/SpoqaHanSansRegular.ttf
-
+    - family: Sang Sang Body
+      fonts:
+        - asset: fonts/SangSangBodyM.ttf
 
 
 

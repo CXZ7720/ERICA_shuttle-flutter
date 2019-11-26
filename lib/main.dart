@@ -89,11 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.white,
                 height: (MediaQuery.of(context).size.height) * 0.2,
                 cardChild: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
                       "셔틀콕(한대앞 방향)",
                       style: TextStyle(
-                        fontSize: 14.0,
+                        fontSize: 24.0,
+                        fontFamily: 'Sang Sang Body',
                         color: Colors.red,
                       ),
                     ),
@@ -101,7 +103,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       future: shuttlecock_o,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Text(snapshot.data.time);
+                          return Row(
+                            children: <Widget>[
+                              Text(
+                                snapshot.data.type,
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(snapshot.data.time),
+                            ],
+                          );
                         } else if (snapshot.hasError) {
                           return Text("${snapshot.error}");
                         }
@@ -120,11 +133,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.white,
                       height: (MediaQuery.of(context).size.height) * 0.2,
                       cardChild: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
                             "셔틀콕(기숙사 방향)",
                             style: TextStyle(
-                              fontSize: 14.0,
+                              fontSize: 24.0,
+                              fontFamily: 'Sang Sang Body',
                               color: Colors.red,
                             ),
                           ),
@@ -132,7 +147,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             future: shuttlecock_i,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return Text(snapshot.data.time);
+                                return Row(
+                                  children: <Widget>[
+                                    Text(
+                                      snapshot.data.type,
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(snapshot.data.time),
+                                  ],
+                                );
                               } else if (snapshot.hasError) {
                                 return Text("${snapshot.error}");
                               }
@@ -154,11 +180,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.white,
                       height: (MediaQuery.of(context).size.height) * 0.2,
                       cardChild: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
                             "한대앞역",
                             style: TextStyle(
-                              fontSize: 14.0,
+                              fontSize: 24.0,
+                              fontFamily: 'Sang Sang Body',
                               color: Colors.red,
                             ),
                           ),
@@ -166,7 +194,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             future: subway,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return Text(snapshot.data.time);
+                                return Row(
+                                  children: <Widget>[
+                                    Text(
+                                      snapshot.data.type,
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(snapshot.data.time),
+                                  ],
+                                );
                               } else if (snapshot.hasError) {
                                 return Text("${snapshot.error}");
                               }
@@ -188,11 +227,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.white,
                       height: (MediaQuery.of(context).size.height) * 0.2,
                       cardChild: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
                             "예술인 아파트",
                             style: TextStyle(
-                              fontSize: 14.0,
+                              fontSize: 24.0,
+                              fontFamily: 'Sang Sang Body',
                               color: Colors.red,
                             ),
                           ),
@@ -200,7 +241,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             future: yesulin,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return Text(snapshot.data.time);
+                                return Row(
+                                  children: <Widget>[
+                                    Text(
+                                      snapshot.data.type,
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(snapshot.data.time),
+                                  ],
+                                );
                               } else if (snapshot.hasError) {
                                 return Text("${snapshot.error}");
                               }
@@ -222,11 +274,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.white,
                       height: (MediaQuery.of(context).size.height) * 0.2,
                       cardChild: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
                             "기숙사",
                             style: TextStyle(
-                              fontSize: 14.0,
+                              fontSize: 24.0,
+                              fontFamily: 'Sang Sang Body',
                               color: Colors.red,
                             ),
                           ),
@@ -234,7 +288,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             future: giksa,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return Text(snapshot.data.time);
+                                return Row(
+                                  children: <Widget>[
+                                    Text(
+                                      snapshot.data.type,
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(snapshot.data.time),
+                                  ],
+                                );
                               } else if (snapshot.hasError) {
                                 return Text("${snapshot.error}");
                               }
@@ -256,4 +321,3 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 }
-
