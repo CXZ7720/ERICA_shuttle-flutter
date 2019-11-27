@@ -91,12 +91,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 cardChild: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      "셔틀콕(한대앞 방향)",
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'Sang Sang Body',
-                        color: Colors.red,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("셔틀콕", style: kDestinationText),
+                        ],
                       ),
                     ),
                     FutureBuilder<Timetable>(
@@ -105,14 +106,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         if (snapshot.hasData) {
                           return Row(
                             children: <Widget>[
+                              Text(snapshot.data.type, style: ktypeText),
                               Text(
-                                snapshot.data.type,
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                snapshot.data.time,
+                                style: kTimeText,
                               ),
-                              Text(snapshot.data.time),
+                              Text(' 후 도착예정'),
                             ],
                           );
                         } else if (snapshot.hasError) {
@@ -120,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         }
                         return CircularProgressIndicator();
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -135,13 +134,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(
-                            "셔틀콕(기숙사 방향)",
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Sang Sang Body',
-                              color: Colors.red,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("셔틀콕\n건너편", style: kDestinationText),
+                              ],
                             ),
+                          ),
+                          SizedBox(
+                            width: 10,
                           ),
                           FutureBuilder<Timetable>(
                             future: shuttlecock_i,
@@ -149,14 +152,12 @@ class _MyHomePageState extends State<MyHomePage> {
                               if (snapshot.hasData) {
                                 return Row(
                                   children: <Widget>[
+                                    Text(snapshot.data.type, style: ktypeText),
                                     Text(
-                                      snapshot.data.type,
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      snapshot.data.time,
+                                      style: kTimeText,
                                     ),
-                                    Text(snapshot.data.time),
+                                    Text(' 후 도착예정'),
                                   ],
                                 );
                               } else if (snapshot.hasError) {
@@ -182,12 +183,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(
-                            "한대앞역",
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Sang Sang Body',
-                              color: Colors.red,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("한대앞역", style: kDestinationText),
+                              ],
                             ),
                           ),
                           FutureBuilder<Timetable>(
@@ -195,15 +197,14 @@ class _MyHomePageState extends State<MyHomePage> {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
+                                    Text(snapshot.data.type, style: ktypeText),
                                     Text(
-                                      snapshot.data.type,
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      snapshot.data.time,
+                                      style: kTimeText,
                                     ),
-                                    Text(snapshot.data.time),
+                                    Text(' 후 도착예정'),
                                   ],
                                 );
                               } else if (snapshot.hasError) {
@@ -229,12 +230,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(
-                            "예술인 아파트",
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Sang Sang Body',
-                              color: Colors.red,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("예술인\n아파트", style: kDestinationText),
+                              ],
                             ),
                           ),
                           FutureBuilder<Timetable>(
@@ -242,15 +244,14 @@ class _MyHomePageState extends State<MyHomePage> {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
+                                    Text(snapshot.data.type, style: ktypeText),
                                     Text(
-                                      snapshot.data.type,
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      snapshot.data.time,
+                                      style: kTimeText,
                                     ),
-                                    Text(snapshot.data.time),
+                                    Text(' 후 도착예정'),
                                   ],
                                 );
                               } else if (snapshot.hasError) {
@@ -276,12 +277,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(
-                            "기숙사",
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Sang Sang Body',
-                              color: Colors.red,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("기숙사", style: kDestinationText),
+                              ],
                             ),
                           ),
                           FutureBuilder<Timetable>(
@@ -290,14 +292,12 @@ class _MyHomePageState extends State<MyHomePage> {
                               if (snapshot.hasData) {
                                 return Row(
                                   children: <Widget>[
+                                    Text(snapshot.data.type, style: ktypeText),
                                     Text(
-                                      snapshot.data.type,
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      snapshot.data.time,
+                                      style: kTimeText,
                                     ),
-                                    Text(snapshot.data.time),
+                                    Text(' 후 도착예정'),
                                   ],
                                 );
                               } else if (snapshot.hasError) {
@@ -313,11 +313,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 10.0),
-              width: double.infinity, //Full Width of screen
-            )
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
