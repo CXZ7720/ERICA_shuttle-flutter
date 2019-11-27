@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'reusable_card.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'api.dart';
 import 'dart:async';
+import 'const.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Timetable> giksa;
   Future<Timetable> subway;
   Future<Timetable> yesulin;
+  final RefreshController _refreshController = RefreshController();
 
   @override
   void initState() {
@@ -46,20 +48,42 @@ class _MyHomePageState extends State<MyHomePage> {
     yesulin = fetchData("yesulin");
   }
 
+  void _onRefreshing() async {
+    // monitor network fetch
+//    initState();
+
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    setState(() {
+
+    });
+    _refreshController.loadComplete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('버스어디?'),
-        ),
-        body: Column(
+      appBar: AppBar(
+        title: Text('버스어디?'),
+      ),
+      body: SmartRefresher(
+        controller: _refreshController,
+        enablePullDown: true,
+        header: WaterDropHeader(),
+        onRefresh: () async {
+          await Future.delayed(Duration(seconds: 1));
+          _onRefreshing();
+          _refreshController.refreshCompleted();
+        },
+//        onLoading: _onRefreshing,
+        child: Column(
           children: <Widget>[
             Row(
               children: <Widget>[
                 Expanded(
                   child: ReusableCard(
                     color: Colors.white,
-                    height: (MediaQuery.of(context).size.height) * 0.2,
+                    height: (MediaQuery.of(context).size.height) * 0.15,
                     cardChild: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
