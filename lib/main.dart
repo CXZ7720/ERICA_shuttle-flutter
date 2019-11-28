@@ -38,7 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Timetable> yesulin;
   final RefreshController _refreshController = RefreshController();
 
-  @override
   void initState() {
     super.initState();
     shuttlecock_i = fetchData("shuttlecock_i");

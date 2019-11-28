@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:math';
 import 'dart:core';
 
 class Timetable {
@@ -45,8 +44,6 @@ Future<Timetable> fetchData(target) async {
 
   int hour = now.hour;
   int min = now.minute;
-  int sec = now.second;
-
 
   if (response.statusCode == 200) {
     List<dynamic> buslist = json.decode(response.body);
@@ -61,9 +58,9 @@ Future<Timetable> fetchData(target) async {
         }
       }
     }
-    print(result[0]);
+//    print(result[0]);
 //    print(json.decode(result)[0]);
-    print(json.decode(response.body));
+//    print(json.decode(response.body));
 //    return Timetable.fromJson(result)
     return Timetable.fromJson(result[0]);
   } else {
