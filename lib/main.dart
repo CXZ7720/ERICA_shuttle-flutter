@@ -50,13 +50,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onRefreshing() async {
     // monitor network fetch
-//    initState();
-
-    await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    shuttlecock_i = fetchData("shuttlecock_i");
+    shuttlecock_o = fetchData("shuttlecock_o");
+    giksa = fetchData("giksa");
+    subway = fetchData("subway");
+    yesulin = fetchData("yesulin");
     setState(() {
 
     });
+
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+
     _refreshController.loadComplete();
   }
 
