@@ -4,6 +4,7 @@ import 'reusable_card.dart';
 import 'api.dart';
 import 'dart:async';
 import 'const.dart';
+import 'FutureBuilder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 void main() => runApp(MyApp());
@@ -123,26 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                       ),
                     ),
-                    FutureBuilder<Timetable>(
-                      future: shuttlecock_o,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Row(
-                            children: <Widget>[
-                              Text(snapshot.data.type, style: ktypeText),
-                              Text(
-                                snapshot.data.time,
-                                style: kTimeText,
-                              ),
-                              Text(' 후 도착예정'),
-                            ],
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text("${snapshot.error}");
-                        }
-                        return CircularProgressIndicator();
-                      },
-                    ),
+                    buildFutureBuilder(shuttlecock_o),
                   ],
                 ),
               ),
@@ -169,26 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           SizedBox(
                             width: 10,
                           ),
-                          FutureBuilder<Timetable>(
-                            future: shuttlecock_i,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Row(
-                                  children: <Widget>[
-                                    Text(snapshot.data.type, style: ktypeText),
-                                    Text(
-                                      snapshot.data.time,
-                                      style: kTimeText,
-                                    ),
-                                    Text(' 후 도착예정'),
-                                  ],
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text("${snapshot.error}");
-                              }
-                              return CircularProgressIndicator();
-                            },
-                          )
+                          buildFutureBuilder(shuttlecock_i)
                         ],
                       ),
                     ),
@@ -215,27 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             ),
                           ),
-                          FutureBuilder<Timetable>(
-                            future: subway,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text(snapshot.data.type, style: ktypeText),
-                                    Text(
-                                      snapshot.data.time,
-                                      style: kTimeText,
-                                    ),
-                                    Text(' 후 도착예정'),
-                                  ],
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text("${snapshot.error}");
-                              }
-                              return CircularProgressIndicator();
-                            },
-                          )
+                          buildFutureBuilder(subway)
                         ],
                       ),
                     ),
@@ -262,27 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             ),
                           ),
-                          FutureBuilder<Timetable>(
-                            future: yesulin,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text(snapshot.data.type, style: ktypeText),
-                                    Text(
-                                      snapshot.data.time,
-                                      style: kTimeText,
-                                    ),
-                                    Text(' 후 도착예정'),
-                                  ],
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text("${snapshot.error}");
-                              }
-                              return CircularProgressIndicator();
-                            },
-                          ),
+                          buildFutureBuilder(yesulin),
                         ],
                       ),
                     ),
@@ -309,26 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ],
                             ),
                           ),
-                          FutureBuilder<Timetable>(
-                            future: giksa,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Row(
-                                  children: <Widget>[
-                                    Text(snapshot.data.type, style: ktypeText),
-                                    Text(
-                                      snapshot.data.time,
-                                      style: kTimeText,
-                                    ),
-                                    Text(' 후 도착예정'),
-                                  ],
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text("${snapshot.error}");
-                              }
-                              return CircularProgressIndicator();
-                            },
-                          ),
+                          buildFutureBuilder(giksa),
                         ],
                       ),
                     ),
