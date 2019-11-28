@@ -21,7 +21,7 @@ class Timetable {
     } else if (json['type'] == "NA") {
       json['type'] = "운행안함";
     } else {
-      json['type'] = "셔틀콕행";
+      json['type'] = "기숙사행";
     }
 
 
