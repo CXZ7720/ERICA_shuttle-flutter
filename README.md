@@ -1,19 +1,22 @@
 # shuttlecock_flutter
+![lang](https://img.shields.io/github/languages/top/CXZ7720/ERICA_shuttle-flutter) ![license](https://img.shields.io/github/license/CXZ7720/ERICA_shuttle-flutter) ![commit](https://img.shields.io/github/last-commit/cxz7720/ERICA_shuttle-flutter) [![project](https://img.shields.io/badge/project-DSC-%231976d2)](https://developers.google.com/community/dsc)<br>
+**한양대학교 셔틀버스 도착시간 안내 어플리케이션**
 
-한양대학교 셔틀버스 도착시간 안내 어플리케이션
+[DSC Korea](https://developers.google.com/community/dsc) - HanyangUniv Erica의 2019년 2학기 Core member로 활동하며 진행한 개인 프로젝트 입니다.
+
 
 ## 0. Screenshots
-* Will be add soon*
+*Will be add soon*
 ## 1. Dependencies
 Most of the dependencies of this project is written in `pubspec.yaml`
  * cupertino_icons: ^0.1.2
  * font_awesome_flutter: ^8.5.0
  * http: ^0.12.0+2
  * pull_to_refresh: ^1.4.5
- <br>
  * Fonts(Already included in this project)
     - Spoqa Han Sans - [LINK](https://spoqa.github.io/spoqa-han-sans/ko-KR/#intro)
     - KT&G SanSang Font - [LINK](https://www.ktng.com/sangsang?mode=DOWN)
+* API Resources : [ERICA_Shuttcock_API](https://github.com/CXZ7720/ERICA_shuttlecock_API) git
 
 ## 2. Requirements
 * Android Studio
@@ -27,14 +30,13 @@ Most of the dependencies of this project is written in `pubspec.yaml`
 ## 5. For Developments
 
 ### 0) Development Environment
-1. OS : Windows10 X64 Build.18362.476
-2. RAM : DDR4 2133 16GB
-3. CPU : Intel™ Core I5 8250U
-4. Flutter : Channel stable, v1.9.1+hotfix.6
-5. Dart version 2.5.0
-6. Android toolchain - Android SDK Version 29.0.2
-7. Java version : OpenJDK Bukld 1.8.0_202-releases-1483-b03
-8. Android Studio : Version 3.5
+1. RAM : DDR4 2133 16GB
+2. CPU : Intel™ Core I5 8250U
+3. Flutter : Channel stable, v1.9.1+hotfix.6
+4. Dart version 2.5.0
+5. Android toolchain - Android SDK Version 29.0.2
+6. Java version : OpenJDK Bukld 1.8.0_202-releases-1483-b03
+7. Android Studio : Version 3.5
     - Flutter plugin version : 41.1.2
     - Dart plugin version : 191.8593
 
