@@ -179,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text("한대앞역", style: kDestinationText),
+                                Text("한대앞", style: kDestinationText),
                               ],
                             ),
                           ),
