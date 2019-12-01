@@ -53,7 +53,7 @@ print("PASS");
 
 Future<Timetable> fetchData(target) async {
   final response =
-  await http.get('https://shuttle.jaram.net/$target');
+  await http.get('https://hyu-shuttlebus.appspot.com/$target');
   var now = new DateTime.now();
 
   int hour = now.hour;
