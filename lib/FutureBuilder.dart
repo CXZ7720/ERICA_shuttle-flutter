@@ -12,16 +12,27 @@ FutureBuilder<Timetable> buildFutureBuilder(target) {
         return Row(
           textBaseline: TextBaseline.alphabetic,
           children: <Widget>[
-            if (snapshot.data.time != "운행종료")
-              Text(
-                snapshot.data.type,
-                style: ktypeText,
-              ),
-            if (snapshot.data.isSpecial != null)
-              Text(
-                "[" + snapshot.data.isSpecial + "]",
-                style: kSpecialBustype,
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                if (snapshot.data.isSpecial != null)
+                  Text(
+                    //첫차 막차 표시부분
+                    "[" + snapshot.data.isSpecial + "]",
+                    style: kSpecialBustype,
+                    textAlign: TextAlign.left,
+                  ),
+                if (snapshot.data.time != "운행종료")
+                  Text(
+                    snapshot.data.type,
+                    style: ktypeText,
+                  ),
+              ],
+            ),
+            SizedBox(
+              width: 7.0,
+            ),
             Text(
               Timearr[0] + "시" + Timearr[1] + "분",
               style: kTimeText,
