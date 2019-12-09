@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'api.dart';
+import 'shuttle_query.dart';
 import 'const.dart';
 
 FutureBuilder<Timetable> buildFutureBuilder(target) {
@@ -48,7 +48,13 @@ FutureBuilder<Timetable> buildFutureBuilder(target) {
         print(snapshot.error);
         return Text("${snapshot.error}");
       }
-      return CircularProgressIndicator();
+      return SizedBox(
+        child: CircularProgressIndicator(
+          strokeWidth: 2.0,
+        ),
+        height: 20.0,
+        width: 20.0,
+      );
     },
   );
 }
