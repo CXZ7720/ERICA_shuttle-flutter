@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'reusable_card.dart';
-import 'api.dart';
+import 'shuttle_query.dart';
 import 'dart:async';
 import 'const.dart';
 import 'FutureBuilder.dart';
+import 'GBusBuilder.dart';
+import 'bus_query.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -37,6 +40,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Timetable> giksa;
   Future<Timetable> subway;
   Future<Timetable> yesulin;
+
+  Future<Bus> bus_3102;
+
   final RefreshController _refreshController = RefreshController();
 
   void initState() {
@@ -46,6 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
     giksa = fetchData("giksa");
     subway = fetchData("subway");
     yesulin = fetchData("yesulin");
+
+    bus_3102 = queryBus("216000379");
   }
 
   void _onRefreshing() async {
@@ -55,9 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
     giksa = fetchData("giksa");
     subway = fetchData("subway");
     yesulin = fetchData("yesulin");
-    setState(() {
-
-    });
+    bus_3102 = getData("216000379");
+    setState(() {});
 
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
@@ -83,35 +90,29 @@ class _MyHomePageState extends State<MyHomePage> {
 //        onLoading: _onRefreshing,
         child: Column(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: ReusableCard(
-                    color: Colors.white,
-                    height: (MediaQuery.of(context).size.height) * 0.15,
-                    cardChild: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Expanded(
-                          child: Image.asset(
-                            'images/bus_yellow.png',
+            Expanded(
+              child: ReusableCard(
+                color: Colors.white,
+                height: (MediaQuery.of(context).size.height) * 0.15,
+                cardChild: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "3102",
+                            style: k3102Text,
                           ),
-                        ),
-                        Expanded(
-                          child: Image.asset(
-                            'images/arrow.png',
-                          ),
-                        ),
-                        Expanded(
-                          child: Image.asset(
-                            'images/train_station.png',
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+                    busbuilder(bus_3102),
+                  ],
                 ),
-              ],
+              ),
             ),
             Expanded(
               child: ReusableCard(

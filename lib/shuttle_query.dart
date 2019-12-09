@@ -38,7 +38,7 @@ class Timetable {
     }
 
 
-print("PASS");
+//print("PASS");
     return Timetable(
       time: json['time'] as String,
       type: json['type'] as String,
@@ -98,7 +98,7 @@ Future<Timetable> fetchData(target) async {
 //    print("res = " + result[0]);
 //    print(json.decode(result)[0]);
 
-    print(result);
+//    print(result);
 //    return Timetable.fromJson(result)
     return Timetable.fromJson(result[0]);
   } else {

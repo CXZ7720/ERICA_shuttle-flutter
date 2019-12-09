@@ -29,3 +29,9 @@ const kSpecialBustype = TextStyle(
 const kWillArriveText = TextStyle(
   fontFamily: "Spoqa Han Sans",
 );
+
+const k3102Text = TextStyle(
+  fontFamily: 'Sang Sang Body',
+  fontSize: 30,
+  color: Colors.redAccent
+);
