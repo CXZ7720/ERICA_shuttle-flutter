@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
     giksa = fetchData("giksa");
     subway = fetchData("subway");
     yesulin = fetchData("yesulin");
-    bus_3102 = getData("216000379");
+    bus_3102 = queryBus("216000379");
     setState(() {});
 
     await Future.delayed(Duration(milliseconds: 1000));

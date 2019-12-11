@@ -14,16 +14,24 @@ FutureBuilder<Bus> busbuilder(target) {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                if (snapshot.data.resultCode == 4)
-                  Text(
-                    '운행중인 버스가 없습니다.',
-                    style: ktypeText,
-                  ),
-                if (snapshot.data.resultCode == 00)
-                  Text(
-                    snapshot.data.predictTime1.toString(),
-                    style: ktypeText,
-                  ),
+                Row(
+                  children: <Widget>[
+                    if (snapshot.data.resultCode == 4)
+                      Text(
+                        '운행중인 버스가 없습니다.',
+                        style: ktypeText,
+                      ),
+                    if (snapshot.data.resultCode.toString() == "0")
+                      Text(
+                        snapshot.data.predictTime1.toString(),
+                        style: ktypeText,
+                      ),
+                    Text(
+                      "분 후 도착예정.",
+                      style: kWillArriveText,
+                    ),
+                  ],
+                ),
               ],
             ),
           ],

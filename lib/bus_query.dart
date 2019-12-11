@@ -1,9 +1,8 @@
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'dart:core';
-import 'package:xml2json/xml2json.dart';
 import 'package:xml_parser/xml_parser.dart';
-import 'package:xml/xml.dart' as xml;
+
 
 getKey() async {
   try {
@@ -29,9 +28,9 @@ getData(target) async {
   print(key);
   try {
     var url =
-        'http://openapi.gbis.go.kr/ws/rest/busarrivalservice/station?serviceKey=' +
+        'http://openapi.gbis.go.kr/ws/rest/busarrivalservice?serviceKey=' +
             key.toString() +
-            '&stationId=$target';
+            '&stationId=$target' + '&routeId=216000061&staOrder=12';
     print(url);
 //    var response = await http.read(url);
 
@@ -45,7 +44,7 @@ getData(target) async {
       parsedData.remove('remainSeatCnt1');
       parsedData.remove('routeId');
       return parsedData;
-    } else if (resultCode == "00") {
+    } else if (resultCode == "0") {
       parsedData['resultCode'] =
           int.parse(xmlDocument.getElement("resultCode").text);
       parsedData['predictTime1'] =
@@ -85,7 +84,7 @@ class Bus {
 
 Future<Bus> queryBus(target) async {
   final Map bus_response = await getData(target);
-  print("!!!!" + bus_response['resultCode'].toString());
+  print("!!!!" + bus_response['predictTime1'].toString());
 
 //  String predictTime1 = '0';
 //  String remainSeatCnt1 = '0';
