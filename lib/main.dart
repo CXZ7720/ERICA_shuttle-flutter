@@ -5,10 +5,11 @@ import 'shuttle_query.dart';
 import 'dart:async';
 import 'const.dart';
 import 'FutureBuilder.dart';
-import 'GBusBuilder.dart';
+import 'package:shuttlecock_flutter/GbisCardBuilder.dart';
 import 'bus_query.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/services.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 void main() => runApp(MyApp());
 
@@ -96,30 +97,23 @@ class _MyHomePageState extends State<MyHomePage> {
 //        onLoading: _onRefreshing,
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: ReusableCard(
-                color: Colors.white,
-                height: (MediaQuery.of(context).size.height) * 0.15,
-                cardChild: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "3102",
-                            style: k3102Text,
-                          ),
-                        ],
-                      ),
-                    ),
-                    busbuilder(bus_3102),
-                  ],
-                ),
-              ),
+            CarouselSlider(
+              height: 100.0,
+              aspectRatio: 16 / 9,
+              items: [
+                BUS_3102(bus_3102: bus_3102),
+                BUS_3102(bus_3102: bus_3102)
+              ].map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      child: i,
+                    );
+                  },
+                );
+              }).toList(),
             ),
+//            BUS_3102(bus_3102: bus_3102),
             Expanded(
               child: ReusableCard(
                 color: Colors.white,
