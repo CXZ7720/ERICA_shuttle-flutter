@@ -26,10 +26,11 @@ FutureBuilder<Bus> busbuilder(target) {
                         snapshot.data.predictTime1.toString(),
                         style: ktypeText,
                       ),
-                    Text(
-                      "분 후 도착예정.",
-                      style: kWillArriveText,
-                    ),
+                    if (snapshot.data.resultCode.toString() == "0")
+                      Text(
+                        "분 후 도착예정.",
+                        style: kWillArriveText,
+                      ),
                   ],
                 ),
               ],
