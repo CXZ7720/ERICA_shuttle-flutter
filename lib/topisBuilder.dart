@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'bus_query.dart';
+import 'subway_query.dart';
 import 'const.dart';
 
-FutureBuilder<Bus> busbuilder(target) {
-  return FutureBuilder<Bus>(
+FutureBuilder<Subway> subwaybuilder(target) {
+  return FutureBuilder<Subway>(
     future: target,
     builder: (context, snapshot) {
       if (snapshot.hasData) {
@@ -16,21 +16,24 @@ FutureBuilder<Bus> busbuilder(target) {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    if (snapshot.data.resultCode == 4)
+                    if (snapshot.data.code == "")
                       Text(
-                        '운행중인 버스가 없습니다.',
+                        '운행중인 열차가 없습니다.',
                         style: ktypeText,
                       ),
-                    if (snapshot.data.resultCode.toString() == "0")
-                      Text(
-                        snapshot.data.predictTime1.toString(),
-                        style: ktypeText,
-                      ),
-                    if (snapshot.data.resultCode.toString() == "0")
-                    Text(
-                      "분 후 도착예정.",
-                      style: kWillArriveText,
-                    ),
+                    if (snapshot.data.code == "INFO-000")
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            snapshot.data.lower_trainLineNm,
+                            style: ktypeText,
+                          ),
+                          Text(
+                            snapshot.data.lower_arvlMsg2,
+                            style: ktypeText,
+                          ),
+                        ],
+                      )
                   ],
                 ),
               ],

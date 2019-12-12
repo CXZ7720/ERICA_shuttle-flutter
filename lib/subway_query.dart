@@ -14,9 +14,13 @@ getTopisKey() async {
   }
 }
 
-getSubwayData() async {
+getSubwayData(target) async {
+  // 현재는 파라미터에 상관없이 4호선을 고정출력하게 함.
+  // @TODO : 추후에 수인선 개통시 파라미터에 따라 List 인덱스를 순회하여 가져오도록 하면 됨.(API 레퍼런스 참조)
+
   var key = await getTopisKey();
-  final Map<String, dynamic> parsedData = {
+  Map<String, dynamic> parsedData = {
+    "code": "",
     "upper_dest": "", //상행선 종착역
     "upper_trainLineNm": "", //상행선 열차종류("당고개행 - 상록수방면")
     "upper_current": "", //상행선 현위치
@@ -38,32 +42,39 @@ getSubwayData() async {
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      List<dynamic> subwayList = json.decode(response.body);
-      if (subwayList[0]['status'] == 200) {
+      Map<String, dynamic> subwayList = json.decode(response.body);
+//      print(subwayList);
+//      print(subwayList['realtimeArrivalList'][0]['trainLineNm']);
+      if (subwayList['errorMessage']['code'] == "INFO-000") {
         //정상운행중
-        parsedData["upper_dest"] = subwayList[1][0]['bstatnNm']; //당고개행
+        parsedData['code'] = subwayList['errorMessage']['code'];
+
+        parsedData["upper_dest"] = subwayList['realtimeArrivalList'][0]['bstatnNm']; //당고개행
         parsedData["upper_trainLineNm"] =
-            subwayList[1][0]['trainLineNm']; //당고개행 - 상록수방면 : 둘 중에 하나 골라서 사용.
-        parsedData["upper_current"] = subwayList[1][0]['arvlMsg3']; //안산
-        parsedData["upper_arvlMsg2"] = subwayList[1][0]['arvlMsg2']; //[2]전역 안산
+            subwayList['realtimeArrivalList'][0]['trainLineNm']; //당고개행 - 상록수방면 : 둘 중에 하나 골라서 사용.
+        parsedData["upper_current"] = subwayList['realtimeArrivalList'][0]['arvlMsg3']; //안산
+        parsedData["upper_arvlMsg2"] = subwayList['realtimeArrivalList'][0]['arvlMsg2']; //[2]전역 안산
 
-        parsedData["lower_dest"] = subwayList[1][0]['bstatnNm']; //오이도행
+        parsedData["lower_dest"] = subwayList['realtimeArrivalList'][2]['bstatnNm']; //오이도행
         parsedData["lower_trainLineNm"] =
-            subwayList[1][0]['trainLineNm']; //오이도행 - 상록수방면 : 둘 중에 하나 골라서 사용.
-        parsedData["lower_current"] = subwayList[1][0]['arvlMsg3']; //상록수
-        parsedData["lower_arvlMsg2"] = subwayList[1][0]['arvlMsg2']; //[1]전역 상록수
-
+            subwayList['realtimeArrivalList'][2]['trainLineNm']; //오이도행 - 상록수방면 : 둘 중에 하나 골라서 사용.
+        parsedData["lower_current"] = subwayList['realtimeArrivalList'][2]['arvlMsg3']; //상록수
+        parsedData["lower_arvlMsg2"] = subwayList['realtimeArrivalList'][2]['arvlMsg2']; //[1]전역 상록수
+      } else {
+        parsedData['code'] = subwayList['errorMessage']['code'];
       }
+
     }
 
     return parsedData;
   } catch (e) {
-    print("An error occured!");
+    print("SUBWAY error occured!");
     print(e);
   }
 }
 
-class Bus {
+class Subway {
+  final String code;
   final String upper_dest;
   final String upper_trainLineNm;
   final String upper_current;
@@ -74,7 +85,8 @@ class Bus {
   final String lower_current;
   final String lower_arvlMsg2;
 
-  Bus({
+  Subway({
+    this.code,
     this.upper_dest,
     this.upper_trainLineNm,
     this.upper_current,
@@ -85,8 +97,9 @@ class Bus {
     this.lower_arvlMsg2,
   });
 
-  factory Bus.fromMap(Map<String, String> data) {
-    return Bus(
+  factory Subway.fromMap(Map<String, dynamic> data) {
+    return Subway(
+      code: data['code'],
       upper_dest: data['upper_dest'],
       upper_trainLineNm: data['upper_trainLineNm'],
       upper_current: data['upper_current'],
@@ -99,9 +112,8 @@ class Bus {
   }
 }
 
-Future<Bus> queryBus() async {
-  final Map train_response = await getSubwayData();
-  print("!!!!" + train_response['predictTime1'].toString());
+Future<Subway> querySubway(target) async {
+  final Map train_response = await getSubwayData(target);
 
-  return Bus.fromMap(train_response);
+  return Subway.fromMap(train_response);
 }

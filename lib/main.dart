@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'subway_query.dart';
+import 'topisCardBuilder.dart';
 import 'reusable_card.dart';
 import 'shuttle_query.dart';
 import 'dart:async';
@@ -49,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Timetable> yesulin;
 
   Future<Bus> bus_3102;
+  Future<Subway> subway_4;
 
   final RefreshController _refreshController = RefreshController();
 
@@ -61,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     yesulin = fetchData("yesulin");
 
     bus_3102 = queryBus("216000379");
+    subway_4 = querySubway(4);//4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
   }
 
   void _onRefreshing() async {
@@ -71,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
     subway = fetchData("subway");
     yesulin = fetchData("yesulin");
     bus_3102 = queryBus("216000379");
+    subway_4 = querySubway(4);
     setState(() {});
 
     await Future.delayed(Duration(milliseconds: 1000));
@@ -99,10 +104,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             CarouselSlider(
               height: 100.0,
-              aspectRatio: 16 / 9,
               items: [
                 BUS_3102(bus_3102: bus_3102),
-                BUS_3102(bus_3102: bus_3102)
+                SUBWAY_4(subway_4: subway_4,)
               ].map((i) {
                 return Builder(
                   builder: (BuildContext context) {
