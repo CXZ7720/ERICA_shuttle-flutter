@@ -3,6 +3,7 @@ import 'subway_query.dart';
 import 'const.dart';
 
 FutureBuilder<Subway> subwaybuilder(target) {
+  //subway_4_upper, subway_4_lower 등 종류를 파라미터로 받음
   return FutureBuilder<Subway>(
     future: target,
     builder: (context, snapshot) {
@@ -25,11 +26,11 @@ FutureBuilder<Subway> subwaybuilder(target) {
                       Column(
                         children: <Widget>[
                           Text(
-                            snapshot.data.lower_trainLineNm,
+                            snapshot.data.trainLineNm,
                             style: ktypeText,
                           ),
                           Text(
-                            snapshot.data.lower_arvlMsg2,
+                            snapshot.data.arvlMsg2,
                             style: ktypeText,
                           ),
                         ],

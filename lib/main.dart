@@ -51,7 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Timetable> yesulin;
 
   Future<Bus> bus_3102;
-  Future<Subway> subway_4;
+  Future<Subway> subway_4_upper;
+  Future<Subway> subway_4_lower;
 
   final RefreshController _refreshController = RefreshController();
 
@@ -64,7 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
     yesulin = fetchData("yesulin");
 
     bus_3102 = queryBus("216000379");
-    subway_4 = querySubway(4);//4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
+    subway_4_upper = querySubway("subway_4_upper");
+    subway_4_lower = querySubway("subway_4_lower");//4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
   }
 
   void _onRefreshing() async {
@@ -75,7 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
     subway = fetchData("subway");
     yesulin = fetchData("yesulin");
     bus_3102 = queryBus("216000379");
-    subway_4 = querySubway(4);
+    subway_4_upper = querySubway("subway_4_upper");
+    subway_4_lower = querySubway("subway_4_lower");
     setState(() {});
 
     await Future.delayed(Duration(milliseconds: 1000));
@@ -106,7 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 100.0,
               items: [
                 BUS_3102(bus_3102: bus_3102),
-                SUBWAY_4(subway_4: subway_4,)
+                SUBWAY_4(subway_4: subway_4_upper),//상행선
+                SUBWAY_4(subway_4: subway_4_lower),//하행선
               ].map((i) {
                 return Builder(
                   builder: (BuildContext context) {

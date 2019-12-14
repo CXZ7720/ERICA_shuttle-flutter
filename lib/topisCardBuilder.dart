@@ -11,6 +11,7 @@ class SUBWAY_4 extends StatelessWidget {
   }) : super(key: key);
 
   final Future<Subway> subway_4;
+//  final Future<Subway> subway_4_upper;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class SUBWAY_4 extends StatelessWidget {
               ],
             ),
           ),
-          subwaybuilder(subway_4)
+          subwaybuilder(subway_4)//UP/DOWN
         ],
       ),
     );
