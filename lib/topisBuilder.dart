@@ -17,7 +17,7 @@ FutureBuilder<Subway> subwaybuilder(target) {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    if (snapshot.data.code == "")
+                    if (snapshot.data.code == "INFO-200")
                       Text(
                         '운행중인 열차가 없습니다.',
                         style: ktypeText,

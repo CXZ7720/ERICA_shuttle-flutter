@@ -41,11 +41,23 @@ getSubwayData(target) async {
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
+      print(response.body.toString());
       Map<String, dynamic> subwayList = json.decode(response.body);
+      print(subwayList['status']);
+
+      if (subwayList['status'] == 500 && subwayList['code'] == "INFO-200") {
+        //운행종료
+        parsedData['code'] = subwayList['code'];
+        return parsedData;
+      }
+
+      //열차가 종료하지 않았다면
+//        print("ENTER NOMAL");
       if (subwayList['errorMessage']['code'] == "INFO-000") {
+        print("INFO CODE : 000");
         //정상운행중
         parsedData['code'] = subwayList['errorMessage']['code'];
-        print(target.toString() + "!!!!");
+//          print(target.toString() + "!!!!");
         if (target == "subway_4_upper") {
           //4호선 상행
           parsedData["dest"] =
@@ -69,19 +81,8 @@ getSubwayData(target) async {
           parsedData["arvlMsg2"] =
               subwayList['realtimeArrivalList'][2]['arvlMsg2']; //[1]전역 상록수
         }
-//        parsedData["upper_dest"] = subwayList['realtimeArrivalList'][0]['bstatnNm']; //당고개행
-//        parsedData["upper_trainLineNm"] =
-//            subwayList['realtimeArrivalList'][0]['trainLineNm']; //당고개행 - 상록수방면 : 둘 중에 하나 골라서 사용.
-//        parsedData["upper_current"] = subwayList['realtimeArrivalList'][0]['arvlMsg3']; //안산
-//        parsedData["upper_arvlMsg2"] = subwayList['realtimeArrivalList'][0]['arvlMsg2']; //[2]전역 안산
-
-//        parsedData["dest"] = subwayList['realtimeArrivalList'][2]['bstatnNm']; //오이도행
-//        parsedData["trainLineNm"] =
-//            subwayList['realtimeArrivalList'][2]['trainLineNm']; //오이도행 - 상록수방면 : 둘 중에 하나 골라서 사용.
-//        parsedData["current"] = subwayList['realtimeArrivalList'][2]['arvlMsg3']; //상록수
-//        parsedData["arvlMsg2"] = subwayList['realtimeArrivalList'][2]['arvlMsg2']; //[1]전역 상록수
       } else {
-        parsedData['code'] = subwayList['errorMessage']['code'];
+        print("return Code check please");
       }
     }
 
