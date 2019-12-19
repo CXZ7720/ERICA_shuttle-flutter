@@ -16,6 +16,7 @@ FutureBuilder<Bus> busbuilder(target) {
               children: <Widget>[
                 Row(
                   children: <Widget>[
+
                     if (snapshot.data.resultCode == 4)
                       Text(
                         '운행중인 버스가 없습니다.',
@@ -32,6 +33,9 @@ FutureBuilder<Bus> busbuilder(target) {
                         style: kWillArriveText,
                       ),
                   ],
+                ),
+                Row(
+                  children: <Widget>[],
                 ),
               ],
             ),

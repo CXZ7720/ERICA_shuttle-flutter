@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'subway_query.dart';
+import 'topisCardBuilder.dart';
 import 'reusable_card.dart';
 import 'shuttle_query.dart';
 import 'dart:async';
 import 'const.dart';
 import 'FutureBuilder.dart';
-import 'GBusBuilder.dart';
+import 'package:shuttlecock_flutter/GbisCardBuilder.dart';
 import 'bus_query.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/services.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 void main() => runApp(MyApp());
 
@@ -48,6 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Timetable> yesulin;
 
   Future<Bus> bus_3102;
+  Future<Subway> subway_4_upper;
+  Future<Subway> subway_4_lower;
 
   final RefreshController _refreshController = RefreshController();
 
@@ -60,6 +65,9 @@ class _MyHomePageState extends State<MyHomePage> {
     yesulin = fetchData("yesulin");
 
     bus_3102 = queryBus("216000379");
+    subway_4_upper = querySubway("subway_4_upper");
+    subway_4_lower =
+        querySubway("subway_4_lower"); //4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
   }
 
   void _onRefreshing() async {
@@ -70,6 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
     subway = fetchData("subway");
     yesulin = fetchData("yesulin");
     bus_3102 = queryBus("216000379");
+    subway_4_upper = querySubway("subway_4_upper");
+    subway_4_lower = querySubway("subway_4_lower");
     setState(() {});
 
     await Future.delayed(Duration(milliseconds: 1000));
@@ -82,7 +92,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('버스어디?'),
+        backgroundColor: Color(0xffffffff),
+        title: Text(
+          '버스어디?',
+          style: kAppbarText
+        ),
       ),
       body: SmartRefresher(
         controller: _refreshController,
@@ -96,34 +110,27 @@ class _MyHomePageState extends State<MyHomePage> {
 //        onLoading: _onRefreshing,
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: ReusableCard(
-                color: Colors.white,
-                height: (MediaQuery.of(context).size.height) * 0.15,
-                cardChild: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "3102",
-                            style: k3102Text,
-                          ),
-                        ],
-                      ),
-                    ),
-                    busbuilder(bus_3102),
-                  ],
-                ),
-              ),
+            CarouselSlider(
+              height: 100.0,
+              items: [
+                BUS_3102(bus_3102: bus_3102),
+                SUBWAY_4(subway_4: subway_4_upper), //상행선
+                SUBWAY_4(subway_4: subway_4_lower), //하행선
+              ].map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      child: i,
+                    );
+                  },
+                );
+              }).toList(),
             ),
+//            BUS_3102(bus_3102: bus_3102),
             Expanded(
               child: ReusableCard(
                 color: Colors.white,
-                height: (MediaQuery.of(context).size.height) * 0.2,
+                height: (MediaQuery.of(context).size.height) * 0.17,
                 cardChild: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -147,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     child: ReusableCard(
                       color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      height: (MediaQuery.of(context).size.height) * 0.17,
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -177,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     child: ReusableCard(
                       color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      height: (MediaQuery.of(context).size.height) * 0.17,
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -204,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     child: ReusableCard(
                       color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      height: (MediaQuery.of(context).size.height) * 0.17,
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -231,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     child: ReusableCard(
                       color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      height: (MediaQuery.of(context).size.height) * 0.17,
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

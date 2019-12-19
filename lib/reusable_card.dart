@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 
 class ReusableCard extends StatelessWidget {
-  ReusableCard({@required this.color, this.cardChild, this.height});
+  ReusableCard({@required this.color, this.cardChild, this.height, this.width});
 
   final Color color;
   final Widget cardChild;
   final double height;
+  final double width;
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
+      width: width,
       child: cardChild,
-      margin: EdgeInsets.all(10.0),
-      padding: EdgeInsets.only(left: 30, top: 10, right: 30, bottom: 10),
+      margin: EdgeInsets.all(8.0),
+      padding: EdgeInsets.only(left: 30, top: 5, right: 30, bottom: 5),
       decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: [
             BoxShadow(
-                color: Colors.black12,
+                color: Color(0xffe4e4f0),//black12
                 blurRadius: 10,
                 spreadRadius: 5,
                 offset: Offset(3, 3))
