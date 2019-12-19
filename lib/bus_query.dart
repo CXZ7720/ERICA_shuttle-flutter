@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:core';
 import 'package:xml_parser/xml_parser.dart';
 
-
 getKey() async {
   try {
     String keyURL =
@@ -23,6 +22,7 @@ getData(target) async {
     "predictTime1": 0,
     "remainSeatCnt1": 0,
     "routeId": 0,
+    "locationNo1": 0
   };
 //  final Xml2Json trans = Xml2Json();
   print(key);
@@ -30,7 +30,8 @@ getData(target) async {
     var url =
         'http://openapi.gbis.go.kr/ws/rest/busarrivalservice?serviceKey=' +
             key.toString() +
-            '&stationId=$target' + '&routeId=216000061&staOrder=12';
+            '&stationId=$target' +
+            '&routeId=216000061&staOrder=12';
     print(url);
 //    var response = await http.read(url);
 
@@ -51,8 +52,9 @@ getData(target) async {
           int.parse(xmlDocument.getElement("predictTime1").text);
       parsedData['remainSeatCnt1'] =
           int.parse(xmlDocument.getElement("remainSeatCnt1").text);
-      parsedData['routeId'] =
-          int.parse(xmlDocument.getElement("routeId").text);
+      parsedData['routeId'] = int.parse(xmlDocument.getElement("routeId").text);
+      parsedData['locationNo1'] =
+          int.parse(xmlDocument.getElement("locationNo1").text);
     }
 
     return parsedData;
@@ -63,23 +65,27 @@ getData(target) async {
 }
 
 class Bus {
-
   final int resultCode;
   final int predictTime1;
   final int remainSeatCnt1;
   final int routeId;
+  final int locationNo1;
 
-  Bus({this.predictTime1, this.resultCode, this.remainSeatCnt1, this.routeId});
+  Bus(
+      {this.predictTime1,
+      this.resultCode,
+      this.remainSeatCnt1,
+      this.routeId,
+      this.locationNo1});
 
   factory Bus.fromMap(Map<String, int> data) {
     return Bus(
-      resultCode: data['resultCode'],
-      predictTime1: data['predictTime1'],
-      remainSeatCnt1: data['remainSeatCnt1'],
-      routeId: data['remainSeatCnt1']
-    );
+        resultCode: data['resultCode'],
+        predictTime1: data['predictTime1'],
+        remainSeatCnt1: data['remainSeatCnt1'],
+        routeId: data['remainSeatCnt1'],
+        locationNo1: data['locationNo1']);
   }
-
 }
 
 Future<Bus> queryBus(target) async {
@@ -98,7 +104,6 @@ Future<Bus> queryBus(target) async {
 //    routeId = bus_response['routeId'];
 //  }
 //
-
 
 //  print(bus_response);
 

@@ -29,7 +29,7 @@ class SUBWAY_4 extends StatelessWidget {
               children: <Widget>[
                 Text(
                   "4호선",
-                  style: k3102Text,
+                  style: kSubway4Text,
                 ),
               ],
             ),

@@ -20,7 +20,7 @@ FutureBuilder<Subway> subwaybuilder(target) {
                     if (snapshot.data.code == "INFO-200")
                       Text(
                         '운행중인 열차가 없습니다.',
-                        style: ktypeText,
+                        style: kEndsubwayText,
                       ),
                     if (snapshot.data.code == "INFO-000")
                       Column(

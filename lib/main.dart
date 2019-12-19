@@ -66,7 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     bus_3102 = queryBus("216000379");
     subway_4_upper = querySubway("subway_4_upper");
-    subway_4_lower = querySubway("subway_4_lower");//4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
+    subway_4_lower =
+        querySubway("subway_4_lower"); //4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
   }
 
   void _onRefreshing() async {
@@ -91,7 +92,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('버스어디?'),
+        backgroundColor: Color(0xffffffff),
+        title: Text(
+          '버스어디?',
+          style: kAppbarText
+        ),
       ),
       body: SmartRefresher(
         controller: _refreshController,
@@ -109,8 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 100.0,
               items: [
                 BUS_3102(bus_3102: bus_3102),
-                SUBWAY_4(subway_4: subway_4_upper),//상행선
-                SUBWAY_4(subway_4: subway_4_lower),//하행선
+                SUBWAY_4(subway_4: subway_4_upper), //상행선
+                SUBWAY_4(subway_4: subway_4_lower), //하행선
               ].map((i) {
                 return Builder(
                   builder: (BuildContext context) {
@@ -125,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: ReusableCard(
                 color: Colors.white,
-                height: (MediaQuery.of(context).size.height) * 0.2,
+                height: (MediaQuery.of(context).size.height) * 0.17,
                 cardChild: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -149,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     child: ReusableCard(
                       color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      height: (MediaQuery.of(context).size.height) * 0.17,
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -179,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     child: ReusableCard(
                       color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      height: (MediaQuery.of(context).size.height) * 0.17,
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -206,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     child: ReusableCard(
                       color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      height: (MediaQuery.of(context).size.height) * 0.17,
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -233,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     child: ReusableCard(
                       color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.2,
+                      height: (MediaQuery.of(context).size.height) * 0.17,
                       cardChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
