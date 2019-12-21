@@ -7,11 +7,12 @@ import 'shuttle_query.dart';
 import 'dart:async';
 import 'const.dart';
 import 'FutureBuilder.dart';
-import 'package:shuttlecock_flutter/GbisCardBuilder.dart';
+import 'package:HYBUS/GbisCardBuilder.dart';
 import 'bus_query.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -25,11 +26,11 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-      title: '버스 어디?',
+      title: 'HYBUS',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: '버스 어디?'),
+      home: MyHomePage(title: 'HYBUS'),
       debugShowCheckedModeBanner: false,
     );
   }

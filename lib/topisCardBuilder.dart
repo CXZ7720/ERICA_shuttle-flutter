@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shuttlecock_flutter/topisBuilder.dart';
+import 'package:HYBUS/topisBuilder.dart';
 import 'reusable_card.dart';
 import 'subway_query.dart';
 import 'const.dart';
@@ -31,10 +31,14 @@ class SUBWAY_4 extends StatelessWidget {
                   "4호선",
                   style: kSubway4Text,
                 ),
+                Text(
+                  "한대앞역",
+                  style: kHandaeApText,
+                ),
               ],
             ),
           ),
-          subwaybuilder(subway_4)//UP/DOWN
+          subwaybuilder(subway_4) //UP/DOWN
         ],
       ),
     );
