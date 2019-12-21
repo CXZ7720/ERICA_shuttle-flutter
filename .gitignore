@@ -460,3 +460,4 @@ hs_err_pid*
 lib/GBIS_TEST.xml
 lib/TOPIS_TEST.json
 android/key.properties
+android/app/key.jks
