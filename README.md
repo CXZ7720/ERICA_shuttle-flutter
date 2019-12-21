@@ -6,7 +6,11 @@
 2019-2 오픈소스기초 기말고사 대체 프로젝트 및 <br>[DSC Korea](https://developers.google.com/community/dsc) - HanyangUniv ERICA의 2019년 2학기 Core member로 활동하며 진행한 개인 프로젝트 입니다.
 
 ## 0. Screenshots
-*Will be add soon*
+<p float="left">
+    <img src="https://user-images.githubusercontent.com/29659112/71312949-f7c65d00-2474-11ea-9f43-e2525c41f957.png" width="350">
+    <img src="https://user-images.githubusercontent.com/29659112/71312957-09a80000-2475-11ea-8887-e1967d7b28e5.png" width="350">
+</p>
+
 ## 1. Dependencies
 Most of the dependencies of this project is written in `pubspec.yaml`
  * cupertino_icons: ^0.1.2
