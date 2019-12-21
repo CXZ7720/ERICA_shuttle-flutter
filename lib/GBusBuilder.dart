@@ -14,28 +14,42 @@ FutureBuilder<Bus> busbuilder(target) {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  textBaseline: TextBaseline.alphabetic,
                   children: <Widget>[
-
                     if (snapshot.data.resultCode == 4)
                       Text(
-                        '운행중인 버스가 없습니다.',
-                        style: ktypeText,
+                        '차고지 대기중',
+                        style: kSpecialBustype,
                       ),
                     if (snapshot.data.resultCode.toString() == "0")
-                      Text(
-                        snapshot.data.predictTime1.toString(),
-                        style: ktypeText,
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            snapshot.data.locationNo1.toString(),
+                            style: kLocationText,
+                          ),
+                          Text(
+                            " 번째 전",
+                            style: kWillArriveText,
+                          ),
+                        ],
                       ),
                     if (snapshot.data.resultCode.toString() == "0")
-                      Text(
-                        "분 후 도착예정.",
-                        style: kWillArriveText,
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            snapshot.data.predictTime1.toString(),
+                            style: kPredictTime1,
+                          ),
+                          Text(
+                            " 분 후 도착예정",
+                            style: kWillArriveText,
+                          ),
+                        ],
                       ),
                   ],
-                ),
-                Row(
-                  children: <Widget>[],
                 ),
               ],
             ),

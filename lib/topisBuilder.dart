@@ -24,14 +24,15 @@ FutureBuilder<Subway> subwaybuilder(target) {
                       ),
                     if (snapshot.data.code == "INFO-000")
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Text(
-                            snapshot.data.trainLineNm,
-                            style: ktypeText,
+                            snapshot.data.dest + "행",
+                            style: kSubwayDestStyle,
                           ),
                           Text(
                             snapshot.data.arvlMsg2,
-                            style: ktypeText,
+                            style: karvlMsgText,
                           ),
                         ],
                       )

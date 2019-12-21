@@ -26,10 +26,24 @@ class BUS_3102 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "3102",
-                  style: k3102Text,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: <Widget>[
+                    Text(
+                      "3102",
+                      style: k3102Text,
+                    ),
+                    Text(
+                      " 강남행",
+                      style: k3102DestText,
+                    ),
+                  ],
                 ),
+                Text(
+                  "한양대 게스트하우스",
+                  style: kGuesthouseText,
+                )
               ],
             ),
           ),

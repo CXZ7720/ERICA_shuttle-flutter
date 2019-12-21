@@ -10,11 +10,12 @@ FutureBuilder<Timetable> buildFutureBuilder(target) {
         print(snapshot.data.isSpecial);
         List Timearr = snapshot.data.time.split(":");
         return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           textBaseline: TextBaseline.alphabetic,
           children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
+//              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 if (snapshot.data.isSpecial != null)
                   Text(
@@ -33,15 +34,22 @@ FutureBuilder<Timetable> buildFutureBuilder(target) {
             SizedBox(
               width: 7.0,
             ),
-            Text(
-              Timearr[0] + "시" + Timearr[1] + "분",
-              style: kTimeText,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: <Widget>[
+                Text(
+                  Timearr[0] + "시" + Timearr[1] + "분",
+                  style: kTimeText,
+                ),
+                if (snapshot.data.time != "운행종료")
+                  Text(
+                    ' 도착예정',
+                    style: kWillArriveText,
+                  ),
+              ],
             ),
-            if (snapshot.data.time != "운행종료")
-              Text(
-                ' 도착예정',
-                style: kWillArriveText,
-              ),
+
           ],
         );
       } else if (snapshot.hasError) {
