@@ -25,14 +25,14 @@ getData(target) async {
     "locationNo1": 0
   };
 //  final Xml2Json trans = Xml2Json();
-  print(key);
+//  print(key);
   try {
     var url =
         'http://openapi.gbis.go.kr/ws/rest/busarrivalservice?serviceKey=' +
             key.toString() +
             '&stationId=$target' +
             '&routeId=216000061&staOrder=12';
-    print(url);
+//    print(url);
 //    var response = await http.read(url);
 
     XmlDocument xmlDocument = await XmlDocument.fromUri(url);
@@ -90,7 +90,7 @@ class Bus {
 
 Future<Bus> queryBus(target) async {
   final Map bus_response = await getData(target);
-  print("!!!!" + bus_response['predictTime1'].toString());
+//  print("!!!!" + bus_response['predictTime1'].toString());
 
 //  String predictTime1 = '0';
 //  String remainSeatCnt1 = '0';
