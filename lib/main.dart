@@ -94,14 +94,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Color(0xffffffff),
         title: Text(
-          '버스어디?',
+          'HYBUS',
           style: kAppbarText
         ),
       ),
       body: SmartRefresher(
         controller: _refreshController,
         enablePullDown: true,
-        header: WaterDropHeader(),
+        header: WaterDropMaterialHeader(),
         onRefresh: () async {
           await Future.delayed(Duration(seconds: 1));
           _onRefreshing();
