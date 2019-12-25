@@ -89,6 +89,5 @@ It takes few minute, depends on your machine's peformance.
 You must turn on Andoird debug bridge on your phone, and grant to install APK through USB connection.
 
 ## 8) Market download Link
-Google Play Store 등록 완료. 현재 검토 대기중.
 
-![image](https://user-images.githubusercontent.com/29659112/71321761-897bac00-2501-11ea-8921-ca51087e02ea.png)
+https://play.google.com/store/apps/details?id=com.busHanyang.hybus
