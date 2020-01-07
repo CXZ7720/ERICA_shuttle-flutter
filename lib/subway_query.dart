@@ -46,15 +46,44 @@ getSubwayData(target) async {
         return parsedData;
       }
 
-      int idxnum = 0;
+      //1. 상하행 모두 정상운행 : 상하상하
+      //2. 상행막차 하행남음 : 상하하
+      //3. 상행종료 하행남음 : 하(하)
+      //4. 상행정상 하행막차 : 상하상
+      //5. 상행정상 하행종료 : 상(상)
+      //6. 상행막차 하행막차 : 상하
 
-      if (subwayList['errorMessage']['total'] == 2) {
-        //데이터 길이가 2일경우(막차 시간대)
+
+      int idxnum = 0; //하행선 인덱스 파라미터
+
+      if(subwayList['errorMessage']['total'] == 4) { //정상운행
+        idxnum = 2;
+      } else if (subwayList['errorMessage']['total'] == 3){ //상하하, 상하상 모두 포함. ''상상하'는 있을 수 없음.
         idxnum = 1;
-      } else if (subwayList['errorMessage']['total'] == 1) {
-        //데이터 길이가 1일경우(막차 시간대)-parsedData 바로 리턴 : 기본값이 INFO-200 운행종료.
+      } else if (subwayList['errorMessage']['total'] == 2){ //상하 , 상상, 하하 인 경우
+        if(subwayList['realtimeArrivalList'][0]['updnLine'] == '하행'){ //하하, 하
+          idxnum = 0;
+        } else if (subwayList['realtimeArrivalList'][1]['updnLine'] == '상행'){ //상상
+          subwayList['errorMessage']['code'] = "INFO-200"; //상상인 경우에는 return 운행종료
+        } else {//상하
+          idxnum = 1;
+        }
+      } else if (subwayList['errorMessage']['total'] == 1){//상, 하
+        if(subwayList['realtimeArrivalList'][0]['updnLine'] == '상행'){
+          idxnum = 1;
+        }
+      } else {
         return parsedData;
       }
+
+
+//      if (subwayList['errorMessage']['total'] == 2) {
+//        //데이터 길이가 2일경우(막차 시간대)
+//        idxnum = 1;
+//      } else if (subwayList['errorMessage']['total'] == 1) {
+//        //데이터 길이가 1일경우(막차 시간대)-parsedData 바로 리턴 : 기본값이 INFO-200 운행종료.
+//        return parsedData;
+//      }
 
       //열차가 종료하지 않았다면
 //        print("ENTER NOMAL");
