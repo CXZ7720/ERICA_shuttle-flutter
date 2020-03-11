@@ -112,3 +112,9 @@ const k3102DestText = TextStyle(
     color: Color(0xFF767E8D),
   fontSize: 10
 );
+
+const kapiErrorText = TextStyle(
+  fontFamily: "Spoqa Han Sans",
+  color: Color(0xffe60012),
+  fontSize: 11,
+);

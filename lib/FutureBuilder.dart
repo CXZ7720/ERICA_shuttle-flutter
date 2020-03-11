@@ -49,12 +49,14 @@ FutureBuilder<Timetable> buildFutureBuilder(target) {
                   ),
               ],
             ),
-
           ],
         );
       } else if (snapshot.hasError) {
         print(snapshot.error);
-        return Text("${snapshot.error}");
+        return Text(
+          "앗!! 정보를 받아오는데 실패했어요.\n화면을 쓸어내려 새로고침 해주세요.",
+          style: kapiErrorText,
+        );
       }
       return SizedBox(
         child: CircularProgressIndicator(

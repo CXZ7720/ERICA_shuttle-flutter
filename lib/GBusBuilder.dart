@@ -57,7 +57,11 @@ FutureBuilder<Bus> busbuilder(target) {
         );
       } else if (snapshot.hasError) {
         print(snapshot.error);
-        return Text("${snapshot.error}");
+        return Text(
+          "앗!! 정보를 받아오는데\n실패했어요.\n화면을 당겨내려 \n새로고침 해주세요.",
+          style: kapiErrorText,
+          textAlign: TextAlign.center,
+        );
       }
       return CircularProgressIndicator();
     },
