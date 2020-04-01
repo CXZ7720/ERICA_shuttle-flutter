@@ -44,7 +44,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   Future<Timetable> shuttlecock_i;
   Future<Timetable> shuttlecock_o;
   Future<Timetable> giksa;
@@ -57,10 +57,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final RefreshController _refreshController = RefreshController();
   
+  AppLifecycleState _lastLifecycleState;
   Timer timer;
 
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    
     shuttlecock_i = fetchData("shuttlecock_i");
     shuttlecock_o = fetchData("shuttlecock_o");
     giksa = fetchData("giksa");
@@ -71,10 +74,30 @@ class _MyHomePageState extends State<MyHomePage> {
     subway_4_upper = querySubway("subway_4_upper");
     subway_4_lower =
         querySubway("subway_4_lower"); //4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
-    // refresh every 60 sec .
-    timer = Timer.periodic(Duration(seconds: 60), (Timer t) => refreshData());
+    
+    await Future.delayed(Duration(milliseconds: 1000));
+    // refresh every 60 sec . 59 sec due to `await Future.delayed(Duration(milliseconds: 1000));`
+    timer = Timer.periodic(Duration(seconds: 59), (Timer t) => refreshData());
   }
-
+  
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    WidgetsBinding.instance.removeObserver(this);
+    timer?.cancel();
+    super.dispose();
+  }
+  
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      _lastLifecycleState = state;
+      if (state == AppLifecycleState.resumed) {
+        // resume timer to live fetchData
+        timer = Timer.periodic(Duration(seconds: 59), (Timer t) => fetchData());
+      }
+    });
+  }
   void _onRefreshing() async {
     // monitor network fetch
     shuttlecock_i = fetchData("shuttlecock_i");
@@ -92,7 +115,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
     _refreshController.loadComplete();
   }
-  void refreshData() {
+  void refreshData() async {
+    // when user in background paused live fetchData
+    switch (_lastLifecycleState) {
+        case AppLifecycleState.inactive:
+          timer.cancel();
+          break;
+        case AppLifecycleState.paused:
+          timer.cancel();
+          break;
+        case AppLifecycleState.detached:
+          timer.cancel();
+          break;
+        case AppLifecycleState.resumed:
+     }
     shuttlecock_i = fetchData("shuttlecock_i");
     shuttlecock_o = fetchData("shuttlecock_o");
     giksa = fetchData("giksa");
@@ -102,6 +138,8 @@ class _MyHomePageState extends State<MyHomePage> {
     subway_4_upper = querySubway("subway_4_upper");
     subway_4_lower = querySubway("subway_4_lower");
     setState(() {});
+    
+    await Future.delayed(Duration(milliseconds: 1000));
   }
   @override
   Widget build(BuildContext context) {
