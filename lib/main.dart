@@ -1,18 +1,19 @@
+import 'dart:async';
+
+import 'package:HYBUS/GbisCardBuilder.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'subway_query.dart';
-import 'topisCardBuilder.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import 'FutureBuilder.dart';
+import 'bus_query.dart';
+import 'const.dart';
 import 'reusable_card.dart';
 import 'shuttle_query.dart';
-import 'dart:async';
-import 'const.dart';
-import 'FutureBuilder.dart';
-import 'package:HYBUS/GbisCardBuilder.dart';
-import 'bus_query.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flutter/services.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-
+import 'subway_query.dart';
+import 'topisCardBuilder.dart';
 
 void main() => runApp(MyApp());
 
@@ -56,14 +57,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   Future<Subway> subway_4_lower;
 
   final RefreshController _refreshController = RefreshController();
-  
+
   AppLifecycleState _lastLifecycleState;
   Timer timer;
 
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    
+
     shuttlecock_i = fetchData("shuttlecock_i");
     shuttlecock_o = fetchData("shuttlecock_o");
     giksa = fetchData("giksa");
@@ -72,14 +73,12 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
     bus_3102 = queryBus("216000379");
     subway_4_upper = querySubway("subway_4_upper");
-    subway_4_lower =
-        querySubway("subway_4_lower"); //4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
-    
-    await Future.delayed(Duration(milliseconds: 1000));
-    // refresh every 60 sec . 59 sec due to `await Future.delayed(Duration(milliseconds: 1000));`
-    timer = Timer.periodic(Duration(seconds: 59), (Timer t) => refreshData());
+    subway_4_lower = querySubway("subway_4_lower"); //4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
+
+    // refresh every 60 sec .
+    timer = Timer.periodic(Duration(seconds: 60), (Timer t) => refreshData());
   }
-  
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -87,17 +86,20 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     timer?.cancel();
     super.dispose();
   }
-  
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     setState(() {
       _lastLifecycleState = state;
       if (state == AppLifecycleState.resumed) {
         // resume timer to live fetchData
-        timer = Timer.periodic(Duration(seconds: 59), (Timer t) => fetchData());
+        // 59sec due to `await Future.delayed(Duration(milliseconds: 1000));`
+        refreshData();
+        timer = Timer.periodic(Duration(seconds: 59), (Timer t) => refreshData());
       }
     });
   }
+
   void _onRefreshing() async {
     // monitor network fetch
     shuttlecock_i = fetchData("shuttlecock_i");
@@ -115,20 +117,21 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
     _refreshController.loadComplete();
   }
+
   void refreshData() async {
-    // when user in background paused live fetchData
+    // when user in background, paused live fetchData
     switch (_lastLifecycleState) {
-        case AppLifecycleState.inactive:
-          timer.cancel();
-          break;
-        case AppLifecycleState.paused:
-          timer.cancel();
-          break;
-        case AppLifecycleState.detached:
-          timer.cancel();
-          break;
-        case AppLifecycleState.resumed:
-     }
+      case AppLifecycleState.inactive:
+        timer.cancel();
+        break;
+      case AppLifecycleState.paused:
+        timer.cancel();
+        break;
+      case AppLifecycleState.detached:
+        timer.cancel();
+        break;
+      case AppLifecycleState.resumed:
+    }
     shuttlecock_i = fetchData("shuttlecock_i");
     shuttlecock_o = fetchData("shuttlecock_o");
     giksa = fetchData("giksa");
@@ -138,18 +141,17 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     subway_4_upper = querySubway("subway_4_upper");
     subway_4_lower = querySubway("subway_4_lower");
     setState(() {});
-    
+
     await Future.delayed(Duration(milliseconds: 1000));
+    print("새로고침");
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xffffffff),
-        title: Text(
-          'HYBUS',
-          style: kAppbarText
-        ),
+        title: Text('HYBUS', style: kAppbarText),
       ),
       body: SmartRefresher(
         controller: _refreshController,
