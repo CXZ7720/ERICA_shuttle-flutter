@@ -56,6 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<Subway> subway_4_lower;
 
   final RefreshController _refreshController = RefreshController();
+  
+  Timer timer;
 
   void initState() {
     super.initState();
