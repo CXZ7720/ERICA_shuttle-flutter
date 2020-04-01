@@ -69,6 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
     subway_4_upper = querySubway("subway_4_upper");
     subway_4_lower =
         querySubway("subway_4_lower"); //4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
+    // refresh every 60 sec .
+    timer = Timer.periodic(Duration(seconds: 60), (Timer t) => refreshData());
   }
 
   void _onRefreshing() async {
@@ -88,7 +90,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
     _refreshController.loadComplete();
   }
-
+  void refreshData() {
+    shuttlecock_i = fetchData("shuttlecock_i");
+    shuttlecock_o = fetchData("shuttlecock_o");
+    giksa = fetchData("giksa");
+    subway = fetchData("subway");
+    yesulin = fetchData("yesulin");
+    bus_3102 = queryBus("216000379");
+    subway_4_upper = querySubway("subway_4_upper");
+    subway_4_lower = querySubway("subway_4_lower");
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
