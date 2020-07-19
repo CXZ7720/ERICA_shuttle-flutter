@@ -84,9 +84,9 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   }
 
   void firebaseCloudMessaging_Listeners() {
-    _firebaseMessaging.getToken().then((token){
-      print(token);
-    });
+//    _firebaseMessaging.getToken().then((token){
+//      print(token);
+//    });
 
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
