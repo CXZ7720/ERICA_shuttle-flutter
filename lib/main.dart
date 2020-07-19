@@ -15,6 +15,8 @@ import 'shuttle_query.dart';
 import 'subway_query.dart';
 import 'topisCardBuilder.dart';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -60,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   AppLifecycleState _lastLifecycleState;
   Timer timer;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   void initState() {
     super.initState();
@@ -77,6 +80,25 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
     // refresh every 60 sec .
     timer = Timer.periodic(Duration(seconds: 60), (Timer t) => refreshData());
+    firebaseCloudMessaging_Listeners();
+  }
+
+  void firebaseCloudMessaging_Listeners() {
+    _firebaseMessaging.getToken().then((token){
+      print(token);
+    });
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
   }
 
   @override
