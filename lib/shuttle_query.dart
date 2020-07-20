@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:core';
+import 'package:flutter/services.dart' show rootBundle;
+import 'utils.dart';
 
 class Timetable {
   final String time;
@@ -52,8 +54,39 @@ class Timetable {
 
 
 Future<Timetable> fetchData(target) async {
+  final settings = await rootBundle.loadString('lib/settings.json');
+
+  Map<String, dynamic> decoded_settings = json.decode(settings.toString());
+  String datekind = getDateKind(decoded_settings); //semester, vacation, vacation_session
+  String daykind = getDaykind(decoded_settings); //week, weekend
+  print("날짜 구분 : $daykind");
+  print("학기 구분 : $datekind");
+  String filename = '';
+  switch (target) {
+    case 'shuttlecock_i':
+      filename = "Shuttlecock_I_$daykind.json";
+      break;
+    case 'shuttlecock_o':
+      filename = "Shuttlecock_O_$daykind.json";
+      break;
+    case 'giksa':
+      filename = "Residence_$daykind.json";
+      break;
+    case 'subway':
+      filename = "Subway_$daykind.json";
+      break;
+    case 'yesulin':
+      filename = "YesulIn_$daykind.json";
+      break;
+    default:
+      filename = "";
+  }
+
+  print('https://cdn.hybus.app/timetable/$datekind/$daykind/$filename');
+
+
   final response =
-  await http.get('https://hyu-shuttlebus.appspot.com/$target');
+  await http.get('https://cdn.hybus.app/timetable/$datekind/$daykind/$filename');
   var now = new DateTime.now();
 
   int hour = now.hour;
@@ -61,15 +94,18 @@ Future<Timetable> fetchData(target) async {
 //  int hour = 23;
 //  int min = 13;
   List<dynamic> result = [];
-
+  var objIdx = filename.split(".")[0].toLowerCase();
   if (response.statusCode == 200) {
-    List<dynamic> buslist = json.decode(response.body);
+    Map<dynamic, dynamic> tempRes = json.decode(response.body);
+    List<dynamic> buslist = tempRes[objIdx];
+
     for(var i = 0; i < buslist.length; i++){
-      var temp =buslist[i]['time'].split(":");
+      var temp =  buslist[i]['time'].split(":");
+
       if(int.parse(temp[0]) * 60 + int.parse(temp[1]) - hour * 60 - min > 0){
 
         result.add(buslist[i]);
-        if(result.length > 4){ //일단은 4개 넣어둠.
+        if(result.length > 2){ //일단은 2개 넣어둠.
           break;
         }
       }
@@ -84,11 +120,11 @@ Future<Timetable> fetchData(target) async {
     if (result.length == 0){
 //      result.add({"time" : "운행종료", "type": ""});
     print("첫차 삽입됨");
-      result.add(json.decode(response.body)[0]); // 첫차 삽입.
+      result.add(buslist[0]); // 첫차 삽입.
 
     }
 
-    if(result[0]['time'] == json.decode(response.body)[0]['time']) {
+    if(result[0]['time'] == buslist[0]['time']) {
       result[0]['isSpecial'] = "F"; //첫차를 표시해야 할 경우 첫차 파라미터 추가(First)
     }
 //    막차첫차 파라미터 추가 끝
