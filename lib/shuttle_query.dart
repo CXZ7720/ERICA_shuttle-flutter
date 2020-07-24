@@ -82,13 +82,12 @@ Future<Timetable> fetchData(target) async {
       filename = "";
   }
 
-  print('https://cdn.hybus.app/timetable/$datekind/$daykind/$filename');
 
 
   final response =
-  await http.get('https://cdn.hybus.app/timetable/$datekind/$daykind/$filename');
-  var now = new DateTime.now();
+  await http.get('https://storage.googleapis.com/hybus-timetable/timetable/$datekind/$daykind/$filename');
 
+  var now = new DateTime.now();
   int hour = now.hour;
   int min = now.minute;
 //  int hour = 23;
