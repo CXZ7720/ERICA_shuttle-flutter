@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "500215812355",
+    "firebase_url": "https://hybus-flutter-1.firebaseio.com",
+    "project_id": "hybus-flutter-1",
+    "storage_bucket": "hybus-flutter-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:500215812355:android:25ddc0fc4532a73d549936",
+        "android_client_info": {
+          "package_name": "com.busHanyang.hybus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "500215812355-eim4bpa9fl1n3got4b3ivsi93lc3uhde.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsQrbBXFDhyoDV-ZYb_pDtSDwgu22paWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "500215812355-eim4bpa9fl1n3got4b3ivsi93lc3uhde.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
