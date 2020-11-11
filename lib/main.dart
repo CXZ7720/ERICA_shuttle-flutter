@@ -7,10 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'FutureBuilder.dart';
 import 'bus_query.dart';
+import 'components/shuttleBus_card.dart';
 import 'const.dart';
-import 'reusable_card.dart';
 import 'shuttle_query.dart';
 import 'subway_query.dart';
 import 'topisCardBuilder.dart';
@@ -48,6 +47,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
+  List<String> titleNames = ["셔틀콕", "셔틀콕\n건너편", "한대앞", "예술인\n아파트", "기숙사"];
+  List<String> fetchDataNames = ["shuttlecock_i", "shuttlecock_o", "subway", "yesulin", "giksa"];
+  List<Future<Timetable>> fetchDataList = [];
   Future<Timetable> shuttlecock_i;
   Future<Timetable> shuttlecock_o;
   Future<Timetable> giksa;
@@ -68,15 +70,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    shuttlecock_i = fetchData("shuttlecock_i");
-    shuttlecock_o = fetchData("shuttlecock_o");
-    giksa = fetchData("giksa");
-    subway = fetchData("subway");
-    yesulin = fetchData("yesulin");
-
-    bus_3102 = queryBus("216000379");
-    subway_4_upper = querySubway("subway_4_upper");
-    subway_4_lower = querySubway("subway_4_lower"); //4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
+    monitorNetworkFetch();
 
     // refresh every 60 sec .
     timer = Timer.periodic(Duration(seconds: 60), (Timer t) => refreshData());
@@ -124,12 +118,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   void _onRefreshing() async {
     // monitor network fetch
-    shuttlecock_i = fetchData("shuttlecock_i");
-    shuttlecock_o = fetchData("shuttlecock_o");
-    giksa = fetchData("giksa");
-    subway = fetchData("subway");
-    yesulin = fetchData("yesulin");
-    bus_3102 = queryBus("216000379");
+    monitorNetworkFetch();
+
     subway_4_upper = querySubway("subway_4_upper");
     subway_4_lower = querySubway("subway_4_lower");
     setState(() {});
@@ -154,18 +144,32 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.resumed:
     }
-    shuttlecock_i = fetchData("shuttlecock_i");
-    shuttlecock_o = fetchData("shuttlecock_o");
-    giksa = fetchData("giksa");
-    subway = fetchData("subway");
-    yesulin = fetchData("yesulin");
-    bus_3102 = queryBus("216000379");
-    subway_4_upper = querySubway("subway_4_upper");
-    subway_4_lower = querySubway("subway_4_lower");
+    monitorNetworkFetch();
     setState(() {});
 
     await Future.delayed(Duration(milliseconds: 1000));
     print("새로고침");
+  }
+
+  void monitorNetworkFetch() {
+    try {
+      fetchDataList = [];
+      shuttlecock_i = fetchData("shuttlecock_i");
+      shuttlecock_o = fetchData("shuttlecock_o");
+      giksa = fetchData("giksa");
+      subway = fetchData("subway");
+      yesulin = fetchData("yesulin");
+      bus_3102 = queryBus("216000379");
+      fetchDataList.add(shuttlecock_i);
+      fetchDataList.add(shuttlecock_o);
+      fetchDataList.add(giksa);
+      fetchDataList.add(subway);
+      fetchDataList.add(yesulin);
+      subway_4_upper = querySubway("subway_4_upper");
+      subway_4_lower = querySubway("subway_4_lower"); //4호선. 추후 수인선 개통시 파라미터만 바꿔서 호출.
+
+      setState(() {});
+    } catch (e) {}
   }
 
   @override
@@ -175,168 +179,52 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         backgroundColor: Color(0xffffffff),
         title: Text('HYBUS', style: kAppbarText),
       ),
-      body: SmartRefresher(
-        controller: _refreshController,
-        enablePullDown: true,
-        header: WaterDropMaterialHeader(),
-        onRefresh: () async {
-          await Future.delayed(Duration(seconds: 1));
-          _onRefreshing();
-          _refreshController.refreshCompleted();
-        },
+      body: Theme(
+        data: Theme.of(context).copyWith(accentColor: Colors.blue[100].withOpacity(0.8)),
+        child: SmartRefresher(
+          controller: _refreshController,
+          enablePullDown: true,
+          header: WaterDropMaterialHeader(),
+          onRefresh: () async {
+            await Future.delayed(Duration(seconds: 1));
+            _onRefreshing();
+            _refreshController.refreshCompleted();
+          },
 //        onLoading: _onRefreshing,
-        child: Column(
-          children: <Widget>[
-            CarouselSlider(
-              height: 100.0,
-              items: [
-                BUS_3102(bus_3102: bus_3102),
-                SUBWAY_4(subway_4: subway_4_upper), //상행선
-                SUBWAY_4(subway_4: subway_4_lower), //하행선
-              ].map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                      child: i,
-                    );
-                  },
-                );
-              }).toList(),
-            ),
+          child: Column(
+            children: <Widget>[
+              CarouselSlider(
+                height: 100.0,
+                items: [
+                  BUS_3102(bus_3102: bus_3102),
+                  SUBWAY_4(subway_4: subway_4_upper), //상행선
+                  SUBWAY_4(subway_4: subway_4_lower), //하행선
+                ].map((i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        child: i,
+                      );
+                    },
+                  );
+                }).toList(),
+              ),
 //            BUS_3102(bus_3102: bus_3102),
-            Expanded(
-              child: ReusableCard(
-                color: Colors.white,
-                height: (MediaQuery.of(context).size.height) * 0.17,
-                cardChild: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text("셔틀콕", style: kDestinationText),
-                        ],
-                      ),
+              Expanded(
+                child: ListView(
+                  children: List.generate(
+                    titleNames.length,
+                    (index) => ShuttleBusCard(
+                      key: ValueKey(index),
+                      title: titleNames[index],
+                      fetchedData: fetchDataList[index],
+                      index: index,
                     ),
-                    buildFutureBuilder(shuttlecock_o),
-                  ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ReusableCard(
-                      color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.17,
-                      cardChild: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text("셔틀콕\n건너편", style: kDestinationText),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          buildFutureBuilder(shuttlecock_i)
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ReusableCard(
-                      color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.17,
-                      cardChild: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text("한대앞", style: kDestinationText),
-                              ],
-                            ),
-                          ),
-                          buildFutureBuilder(subway)
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ReusableCard(
-                      color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.17,
-                      cardChild: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text("예술인\n아파트", style: kDestinationText),
-                              ],
-                            ),
-                          ),
-                          buildFutureBuilder(yesulin),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ReusableCard(
-                      color: Colors.white,
-                      height: (MediaQuery.of(context).size.height) * 0.17,
-                      cardChild: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text("기숙사", style: kDestinationText),
-                              ],
-                            ),
-                          ),
-                          buildFutureBuilder(giksa),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
