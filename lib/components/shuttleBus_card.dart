@@ -16,7 +16,7 @@ class ShuttleBusCard extends StatefulWidget {
 class _ShuttleBusCardState extends State<ShuttleBusCard> {
   bool _animate = false;
   bool _isStart = true; // play animation first time - static
-
+  bool _dispose = false;
   @override
   void initState() {
     super.initState();
@@ -26,14 +26,23 @@ class _ShuttleBusCardState extends State<ShuttleBusCard> {
   void animationControll(int speed) {
     _isStart
         ? Future.delayed(Duration(milliseconds: widget.index * speed), () {
-            setState(() {
-              _animate = true;
-              _isStart = false;
-            });
+            {
+              if(!_dispose)
+              setState(() {
+                _animate = true;
+                _isStart = false;
+              });
+            }
           })
         : _animate = true;
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _dispose = true;
 
+  }
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
